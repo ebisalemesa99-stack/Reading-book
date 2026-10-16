@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Haven | Online Library</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f5fa;
+    color: #26334a;
+    line-height: 1.6;
+}
+
+header {
+    background: #20365c;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: 30px auto;
+    min-height: 65vh;
+}
+
+.auth-card {
+    max-width: 450px;
+    margin: 35px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px #0000000c;
+}
+
+h2 {
+    color: #20365c;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd4e2;
+    border-radius: 7px;
+    font: inherit;
+    background: white;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 7px;
+    background: #4169a8;
+    color: white;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #20365c;
+}
+
+#authButton, #bookForm button {
+    width: 100%;
+}
+
+.link-button {
+    background: transparent;
+    color: #4169a8;
+    padding: 4px;
+}
+
+.switch-text {
+    text-align: center;
+    margin-top: 18px;
+}
+
+.message {
+    margin-top: 12px;
+    overflow-wrap: anywhere;
+}
+
+.error {
+    color: #b42318;
+}
+
+.success {
+    color: #18794e;
+}
+
+.dashboard-top, .reader-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.secondary {
+    background: #59677d;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 30px;
+    color: #4169a8;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px #00000008;
+}
+
+.library {
+    margin: 30px 0;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.controls input {
+    flex: 1;
+    min-width: 0;
+}
+
+.controls select {
+    max-width: 220px;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.book-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px #00000008;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.book-cover {
+    display: grid;
+    place-items: center;
+    height: 115px;
+    background: #e8eef9;
+    border-radius: 8px;
+    font-size: 48px;
+}
+
+.book-card h3 {
+    color: #20365c;
+    overflow-wrap: anywhere;
+}
+
+.book-card p {
+    overflow-wrap: anywhere;
+}
+
+.book-meta {
+    color: #5272a4;
+    font-size: 13px;
+}
+
+.book-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+}
+
+.delete-button {
+    background: #b42332;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    padding: 25px;
+    background: white;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.pdf-viewer {
+    display: block;
+    width: 100%;
+    height: 75vh;
+    min-height: 400px;
+    margin: 20px 0;
+    border: 1px solid #d6dce7;
+    border-radius: 8px;
+    background: #f5f5f5;
+}
+
+footer {
+    background: #20365c;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+@media (max-width: 760px) {
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .book-grid, .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .controls, .dashboard-top, .reader-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .controls select {
+        max-width: none;
+    }
+
+    .auth-card, .panel {
+        padding: 18px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📚 Book Haven</h1>
+    <p>Your Personal Online Reading Library</p>
+</header>
+
+<main class="container">
+
+    <!-- LOGIN AND REGISTRATION -->
+    <section id="authSection" class="auth-card">
+        <h2 id="authTitle">Welcome Back!</h2>
+        <p id="authDescription">Log in to access your personal library.</p>
+
+        <form id="authForm">
+            <div class="form-group" id="nameGroup" hidden>
+                <label for="name">Full Name</label>
+                <input id="name" type="text" autocomplete="name"
+                       placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input id="email" type="email" required
+                       autocomplete="email" placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" required
+                       minlength="8" autocomplete="current-password"
+                       placeholder="At least 8 characters">
+            </div>
+
+            <button id="authButton" type="submit">Log In</button>
+        </form>
+
+        <p id="authMessage" class="message error" role="status"></p>
+
+        <p class="switch-text">
+            <span id="switchText">Don't have an account?</span>
+            <button id="switchButton" class="link-button" type="button">
+                Register
+            </button>
+        </p>
+    </section>
+
+    <!-- PERSONAL DASHBOARD -->
+    <section id="dashboard" hidden>
+
+        <div class="dashboard-top">
+            <div>
+                <h2 id="welcomeUser">My Library</h2>
+                <p>Manage your books and enjoy reading.</p>
+            </div>
+            <button id="logoutButton" class="secondary" type="button">
+                Log Out
+            </button>
+        </div>
+
+        <section class="stats">
+            <div class="stat-card">
+                <h3 id="totalBooks">0</h3>
+                <p>My Books</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="readingBooks">0</h3>
+                <p>Reading</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="completedBooks">0</h3>
+                <p>Completed</p>
+            </div>
+        </section>
+
+        <!-- ADD PDF BOOK -->
+        <section class="panel">
+            <h2>＋ Upload Your Book</h2>
+
+            <form id="bookForm">
+                <div class="form-group">
+                    <label for="bookTitle">Book Title</label>
+                    <input id="bookTitle" maxlength="120" required
+                           placeholder="Enter book title">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookAuthor">Author</label>
+                    <input id="bookAuthor" maxlength="100" required
+                           placeholder="Enter author name">
+                </div>
+
+                <div class="form-group">
+                    <label for="bookCategory">Category</label>
+                    <select id="bookCategory">
+                        <option>Fiction</option>
+                        <option>Education</option>
+                        <option>Technology</option>
+                        <option>Personal Growth</option>
+                        <option>History</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookDescription">Description</label>
+                    <textarea id="bookDescription" rows="2" maxlength="1000"
+                              placeholder="About this book..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookPDF">Choose PDF File</label>
+                    <input id="bookPDF" type="file"
+                           accept=".pdf,application/pdf" required>
+                    <small>Maximum file size: 3 MB for this browser demo.</small>
+                </div>
+
+                <button type="submit">Upload to My Library</button>
+            </form>
+
+            <p id="bookMessage" class="message" role="status"></p>
+        </section>
+
+        <!-- BOOKSHELF -->
+        <section class="library">
+            <h2>My Bookshelf</h2>
+
+            <div class="controls">
+                <input id="searchInput" type="search"
+                       placeholder="Search books or authors...">
+
+                <select id="statusFilter">
+                    <option value="All">All Books</option>
+                    <option value="Want to Read">Want to Read</option>
+                    <option value="Reading">Reading</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+
+            <div id="bookList" class="book-grid"></div>
+        </section>
+
+        <!-- PDF READER -->
+        <section id="reader" class="panel" hidden>
+            <div class="reader-top">
+                <div>
+                    <h2 id="readerTitle">Book Title</h2>
+                    <p id="readerAuthor"></p>
+                </div>
+                <button id="closeReader" class="secondary" type="button">
+                    Close Reader
+                </button>
+            </div>
+
+            <iframe id="pdfViewer" class="pdf-viewer"
+                    title="PDF Book Reader"></iframe>
+
+            <button id="completeButton" type="button">
+                Mark as Completed
+            </button>
+        </section>
+
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 Ebisa Lemesa | learn| read |success</p>
+</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+let mode = "login";
+let currentUser = sessionStorage.getItem("bhSession");
+let activeBookId = null;
+let activePdfUrl = null;
+
+function getAccounts() {
+    try {
+        return JSON.parse(localStorage.getItem("bhAccounts") || "{}");
+    } catch {
+        return {};
+    }
+}
+
+function getBooks() {
+    if (!currentUser) return [];
+
+    try {
+        const result = JSON.parse(
+            localStorage.getItem("bhBooks_" + currentUser) || "[]"
+        );
+        return Array.isArray(result) ? result : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveBooks(books) {
+    localStorage.setItem("bhBooks_" + currentUser, JSON.stringify(books));
+}
+
+function message(id, text, success = false) {
+    $(id).textContent = text;
+    $(id).className = "message " + (success ? "success" : "error");
+}
+
+function setMode(newMode) {
+    mode = newMode;
+    const registering = mode === "register";
+
+    $("authTitle").textContent = registering
+        ? "Create Your Account"
+        : "Welcome Back!";
+
+    $("authDescription").textContent = registering
+        ? "Register to build your personal library."
+        : "Log in to access your books.";
+
+    $("nameGroup").hidden = !registering;
+    $("name").required = registering;
+    $("password").autocomplete = registering
+        ? "new-password"
+        : "current-password";
+
+    $("authButton").textContent = registering ? "Register" : "Log In";
+    $("switchText").textContent = registering
+        ? "Already have an account?"
+        : "Don't have an account?";
+    $("switchButton").textContent = registering ? "Log In" : "Register";
+
+    message("authMessage", "");
+}
+
+$("switchButton").addEventListener("click", () => {
+    setMode(mode === "login" ? "register" : "login");
+});
+
+// Demo-only registration and login.
+// Passwords here are NOT securely stored.
+$("authForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const email = $("email").value.trim().toLowerCase();
+    const password = $("password").value;
+
+    try {
+        const accounts = getAccounts();
+
+        if (mode === "register") {
+            const name = $("name").value.trim();
+
+            if (!name) throw new Error("Enter your name.");
+            if (password.length < 8) {
+                throw new Error("Password must be at least 8 characters.");
+            }
+            if (accounts[email]) {
+                throw new Error("Account already exists. Please log in.");
+            }
+
+            accounts[email] = { name, password };
+            localStorage.setItem("bhAccounts", JSON.stringify(accounts));
+
+            $("authForm").reset();
+            setMode("login");
+            $("email").value = email;
+            message("authMessage", "Account created! Please log in.", true);
+            return;
+        }
+
+        const account = accounts[email];
+
+        if (!account || account.password !== password) {
+            throw new Error("Incorrect email or password.");
+        }
+
+        currentUser = email;
+        sessionStorage.setItem("bhSession", email);
+        $("authForm").reset();
+        showDashboard();
+
+    } catch (error) {
+        message("authMessage",
+            error.message || "Unable to save data in browser storage.");
+    }
+});
+
+function showDashboard() {
+    const account = getAccounts()[currentUser];
+
+    if (!account) {
+        logout();
+        return;
+    }
+
+    $("authSection").hidden = true;
+    $("dashboard").hidden = false;
+    $("welcomeUser").textContent = "Welcome, " + account.name + "!";
+
+    renderBooks();
+    updateStats();
+}
+
+function logout() {
+    closeReader();
+    currentUser = null;
+    sessionStorage.removeItem("bhSession");
+
+    $("dashboard").hidden = true;
+    $("authSection").hidden = false;
+    $("authForm").reset();
+    $("bookForm").reset();
+
+    setMode("login");
+}
+
+$("logoutButton").addEventListener("click", logout);
+
+// Save a PDF as a data URL in this browser demo.
+$("bookForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (!currentUser) return;
+
+    const title = $("bookTitle").value.trim();
+    const author = $("bookAuthor").value.trim();
+    const file = $("bookPDF").files[0];
+
+    if (!title || !author || !file) {
+        message("bookMessage", "Complete the required fields.");
+        return;
+    }
+
+    if (
+        file.type !== "application/pdf" &&
+        !file.name.toLowerCase().endsWith(".pdf")
+    ) {
+        message("bookMessage", "Please select a PDF file.");
+        return;
+    }
+
+    if (file.size > 3 * 1024 * 1024) {
+        message("bookMessage", "The PDF must be 3 MB or smaller.");
+        return;
+    }
+
+    if (file.size === 0) {
+        message("bookMessage", "The selected file is empty.");
+        return;
+    }
+
+    try {
+        const pdfData = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(new Error("Cannot read PDF."));
+            reader.readAsDataURL(file);
+        });
+
+        const books = getBooks();
+
+        books.unshift({
+            id: crypto.randomUUID(),
+            title,
+            author,
+            category: $("bookCategory").value,
+            description: $("bookDescription").value.trim(),
+            fileName: file.name,
+            pdfData,
+            status: "Want to Read"
+        });
+
+        saveBooks(books);
+
+        $("bookForm").reset();
+        message("bookMessage", "Your PDF book has been added!", true);
+        renderBooks();
+        updateStats();
+
+    } catch (error) {
+        message("bookMessage",
+            error.message || "Storage full. Try a smaller PDF.");
+    }
+});
+
+$("searchInput").addEventListener("input", renderBooks);
+$("statusFilter").addEventListener("change", renderBooks);
+
+function renderBooks() {
+    if (!currentUser) return;
+
+    const query = $("searchInput").value.trim().toLowerCase();
+    const status = $("statusFilter").value;
+
+    const books = getBooks().filter(book => {
+        const matchesText =
+            book.title.toLowerCase().includes(query) ||
+            book.author.toLowerCase().includes(query);
+
+        return matchesText &&
+            (status === "All" || book.status === status);
+    });
+
+    $("bookList").replaceChildren();
+
+    if (!books.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent =
+            "No books found. Upload your first PDF above.";
+        $("bookList").appendChild(empty);
+        return;
+    }
+
+    books.forEach(book => {
+        const card = document.createElement("article");
+        card.className = "book-card";
+
+        const cover = document.createElement("div");
+        cover.className = "book-cover";
+        cover.textContent = "📖";
+
+        const title = document.createElement("h3");
+        title.textContent = book.title;
+
+        const author = document.createElement("p");
+        author.textContent = "By " + book.author;
+
+        const category = document.createElement("p");
+        category.className = "book-meta";
+        category.textContent = book.category;
+
+        const description = document.createElement("p");
+        description.textContent =
+            book.description || book.fileName || "PDF Book";
+
+        const statusLabel = document.createElement("p");
+        statusLabel.className = "book-meta";
+        statusLabel.textContent = "Status: " + book.status;
+
+        const actions = document.createElement("div");
+        actions.className = "book-actions";
+
+        const readButton = document.createElement("button");
+        readButton.textContent = "Read PDF";
+        readButton.addEventListener("click", () => openBook(book.id));
+
+        const statusButton = document.createElement("button");
+        statusButton.textContent =
+            book.status === "Want to Read" ? "Start Reading" :
+            book.status === "Reading" ? "Mark Completed" : "Read Again";
+
+        statusButton.addEventListener("click", () => {
+            const allBooks = getBooks();
+            const target = allBooks.find(b => b.id === book.id);
+            if (!target) return;
+
+            target.status =
+                target.status === "Want to Read" ? "Reading" :
+                target.status === "Reading" ? "Completed" : "Reading";
+
+            saveBooks(allBooks);
+            renderBooks();
+            updateStats();
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete-button";
+        deleteButton.textContent = "Delete Book";
+
+        deleteButton.addEventListener("click", () => {
+            if (!confirm("Permanently remove this book from your library?")) {
+                return;
+            }
+
+            saveBooks(getBooks().filter(b => b.id !== book.id));
+
+            if (activeBookId === book.id) closeReader();
+
+            renderBooks();
+            updateStats();
+        });
+
+        actions.append(readButton, statusButton, deleteButton);
+        card.append(cover, title, author, category, description,
+                    statusLabel, actions);
+        $("bookList").appendChild(card);
+    });
+}
+
+function dataURLToBlob(dataURL) {
+    const parts = dataURL.split(",");
+    const mime = parts[0].match(/:(.*?);/)[1];
+    const binary = atob(parts[1]);
+    const bytes = new Uint8Array(binary.length);
+
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+
+    return new Blob([bytes], { type: mime });
+}
+
+function openBook(id) {
+    const book = getBooks().find(b => b.id === id);
+
+    if (!book || !book.pdfData) {
+        message("bookMessage", "PDF file not found.");
+        return;
+    }
+
+    if (activePdfUrl) URL.revokeObjectURL(activePdfUrl);
+
+    try {
+        activePdfUrl = URL.createObjectURL(dataURLToBlob(book.pdfData));
+        activeBookId = id;
+
+        $("readerTitle").textContent = book.title;
+        $("readerAuthor").textContent = "By " + book.author;
+        $("pdfViewer").src = activePdfUrl;
+        $("reader").hidden = false;
+
+        $("completeButton").textContent =
+            book.status === "Completed"
+                ? "Completed ✓"
+                : "Mark as Completed";
+
+        $("reader").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        if (book.status === "Want to Read") {
+            changeStatus(id, "Reading");
+        }
+    } catch {
+        message("bookMessage", "Unable to open this PDF.");
+    }
+}
+
+function changeStatus(id, status) {
+    const books = getBooks();
+    const book = books.find(b => b.id === id);
+
+    if (!book) return;
+
+    book.status = status;
+
+    try {
+        saveBooks(books);
+        updateStats();
+        renderBooks();
+
+        $("completeButton").textContent =
+            status === "Completed"
+                ? "Completed ✓"
+                : "Mark as Completed";
+    } catch {
+        message("bookMessage", "Unable to save reading status.");
+    }
+}
+
+$("completeButton").addEventListener("click", () => {
+    if (activeBookId) changeStatus(activeBookId, "Completed");
+});
+
+function closeReader() {
+    $("pdfViewer").src = "about:blank";
+    $("reader").hidden = true;
+
+    if (activePdfUrl) {
+        URL.revokeObjectURL(activePdfUrl);
+        activePdfUrl = null;
+    }
+
+    activeBookId = null;
+}
+
+$("closeReader").addEventListener("click", closeReader);
+
+function updateStats() {
+    const books = getBooks();
+
+    $("totalBooks").textContent = books.length;
+    $("readingBooks").textContent =
+        books.filter(b => b.status === "Reading").length;
+    $("completedBooks").textContent =
+        books.filter(b => b.status === "Completed").length;
+}
+
+// Restore the current browser session.
+if (currentUser && getAccounts()[currentUser]) {
+    showDashboard();
+} else {
+    currentUser = null;
+    sessionStorage.removeItem("bhSession");
+    setMode("login");
+}
+</script>
+
+</body>
+</html>
